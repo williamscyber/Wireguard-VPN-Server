@@ -38,7 +38,7 @@ sudo apt update && sudo apt upgrade -y
 
 Next, install WireGuard:
 ```
-sudo apt install WireGuard -y
+sudo apt install wireguard -y
 ```
 
 Now we must enable IP forwarding on the server. This allows the VPN server to route traffic between VPN clients and the internet.
