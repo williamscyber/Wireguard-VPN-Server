@@ -1,7 +1,7 @@
-# Wireguard VPN Server
-This is a tutorial on how to set up and secure your very own self hosted VPN server using Wireguard and running on an Ubuntu server.
+# WireGuard VPN Server
+This is a tutorial on how to set up and secure your very own self hosted VPN server using WireGuard and running on an Ubuntu server.
 
-Wireguard is a great VPN choice because it is faster than OpenVPN, has a simple setup, and uses modern cryptogrophy/protocols. 
+WireGuard is a great VPN choice because it is faster than OpenVPN, has a simple setup, and uses modern cryptography/protocols. 
 
 **Features:** 
 - Self hosted VPN using WireGuard 
@@ -36,9 +36,9 @@ Start by connecting to your server and updating.
 sudo apt update && sudo apt upgrade -y
 ```
 
-Next, install Wireguard:
+Next, install WireGuard:
 ```
-sudo apt install wireguard -y
+sudo apt install WireGuard -y
 ```
 
 Now we must enable IP forwarding on the server. This allows the VPN server to route traffic between VPN clients and the internet.
@@ -62,7 +62,7 @@ sudo sysctl -p
 
 To generate our keys we must do the following:
 ```
-cd /etc/wireguard
+cd /etc/WireGuard
 umask 077
 wg genkey | tee server_private.key | wg pubkey > server_public.key
 ```
@@ -74,11 +74,11 @@ Make sure you run "ls -l" to make sure that the files are as follows:
 ``` 
 This ensures that your keys are not exposed.
 
-# Wireguard Configuration File & Continued Setup
+# WireGuard Configuration File & Continued Setup
 
-Next we must modify the Wireguard configuration file so that it can run as a server.
+Next we must modify the WireGuard configuration file so that it can run as a server.
 ```
-sudo nano /etc/wireguard/wg0.conf
+sudo nano /etc/WireGuard/wg0.conf
 ```
 Copy and paste this into your file and replace the values as needed:
 ```
@@ -97,17 +97,17 @@ PostDown = iptables -D FORWARD -i wg0 -j ACCEPT; iptables -t nat -D POSTROUTING 
 
 Then run these commands to lock down sensitive files:
 ```
-chmod 600 /etc/wireguard/*.key /etc/wireguard/wg0.conf
-chmod 700 /etc/wireguard
+chmod 600 /etc/WireGuard/*.key /etc/WireGuard/wg0.conf
+chmod 700 /etc/WireGuard
 ```
 
-Then finally we must make it so Wireguard runs persistently on boot:
+Then finally we must make it so WireGuard runs persistently on boot:
 ```
 sudo systemctl start wg-quick@wg0
 sudo systemctl enable wg-quick@wg0
 ```
 
-You can verify that Wireguard is running correctly with these commands:
+You can verify that WireGuard is running correctly with these commands:
 ```
 sudo systemctl status wg-quick@wg0  # checks systemctl status
 sudo wg show wg0  # verify wg is up/checks live view of wg interface
@@ -119,17 +119,17 @@ ip a show wg0  # verify interface exists (should be what you set, ex. 10.0.0.1)
 > [!TIP]
 > You can generate client keys on your server or the client device, but it is simpler to do so on the server in my opinion.
 
-Start by installing Wireguard on your client device. I will go over how I did it on a Linux machine.
+Start by installing WireGuard on your client device. I will go over how I did it on a Linux machine.
 
 Begin with generating new keys on your server.
 ```
-cd /etc/wireguard
+cd /etc/WireGuard
 wg genkey | tee laptop_private.key | wg pubkey > laptop_public.key
 ```
 
 Then, add your client to the bottom of the server configuration file.
 ```
-sudo nano /etc/wireguard/wg0.conf
+sudo nano /etc/WireGuard/wg0.conf
 ```
 ```
 [Interface]
@@ -145,9 +145,9 @@ PublicKey = [Laptop Public Key]
 AllowedIPs = 10.0.0.2/32
 ```
 
-Now, switch over to your client and modify the Wireguard configuration file there:
+Now, switch over to your client and modify the WireGuard configuration file there:
 ```
-sudo nano /etc/wireguard/wg0.conf
+sudo nano /etc/WireGuard/wg0.conf
 ```
 ```
 [Interface]
@@ -162,12 +162,12 @@ AllowedIPs = 0.0.0.0/0
 PersistentKeepalive = 25
 ```
 
-Then, back on your server, restart Wireguard for the changes to apply:
+Then, back on your server, restart WireGuard for the changes to apply:
 ```
 sudo systemctl restart wg-quick@wg0
 ```
 
-And start the Wireguard service on the client and try to connect to the VPN server:
+And start the WireGuard service on the client and try to connect to the VPN server:
 ```
 sudo wg-quick up wg0
 ```
@@ -186,7 +186,7 @@ You can add as many clients as you want, just repeat the following steps and mak
 > If you plan to use this in place of your current VPN, make sure to follow these suggestions.
 
 1. Persist WireGuard on boot 
-2. Restrict security groups, only allow your client IPs on the server 
+2. Restrict security groups if possible
 3. Lock down server access. Only allow: 
    SSH (22) - ideally restricted to your IP only 
    WireGuard (51820 UDP) - port that WireGuard utilizes 
@@ -197,8 +197,15 @@ You can add as many clients as you want, just repeat the following steps and mak
    ```
    I recommend 1.1.1.1 and 9.9.9.9 but you can replace it with a DNS of your choosing.
 
+**Hardening (Recommended)**
 
-# Troubleshooting issues & Good to Knows
+- Disable password SSH login
+- Use SSH keys only
+- Change SSH port (optional)
+- Use UFW or iptables firewall
+- Keep system updated
+  
+# Troubleshooting Issues & Good to Knows
 - No internet but connected \
   → NAT rule or wrong interface 
 
