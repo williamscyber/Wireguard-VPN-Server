@@ -74,7 +74,7 @@ Make sure you run "ls -l" to make sure that the files are as follows:
 ``` 
 This ensures that your keys are not exposed.
 
-# WireGuard Configuration File & Continued Setup
+# WireGuard Configuration File
 
 Next we must modify the WireGuard configuration file so that it can run as a server.
 ```
