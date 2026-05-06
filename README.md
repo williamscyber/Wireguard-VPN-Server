@@ -179,7 +179,7 @@ You should see something along the lines of:
 You can also visit a site such as [WhatsMyIP](https://whatismyipaddress.com/). If it is working, then you should see the public IP of your server. \
 You can add as many clients as you want, just repeat the following steps and make new key pairs for each client.
 
-**Congrats, you now own your very own private VPN server!**
+**Congrats, you now own your very own private VPN server!**  🎉 
 
 # Tips for Extra Security
 > [!IMPORTANT]  
