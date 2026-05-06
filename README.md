@@ -1,5 +1,5 @@
 # WireGuard VPN Server
-This is a tutorial on how to set up and secure your very own self hosted VPN server using WireGuard and running on an Ubuntu server.
+This project is a tutorial on how to set up and secure your very own self hosted VPN server using WireGuard and running on an Ubuntu server.
 
 WireGuard is a great VPN choice because it is faster than OpenVPN, has a simple setup, and uses modern cryptography/protocols. 
 
@@ -204,6 +204,13 @@ You can add as many clients as you want, just repeat the following steps and mak
 - Change SSH port (optional)
 - Use UFW or iptables firewall
 - Keep system updated
+
+**Threat Model Considerations**
+
+- Protecting private keys from exposure
+- Preventing unauthorized VPN access
+- Minimizing exposed services to reduce attack surface
+- Securing SSH access to the server
   
 # Troubleshooting Issues & Good to Knows
 - No internet but connected \
